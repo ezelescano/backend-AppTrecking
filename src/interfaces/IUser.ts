@@ -4,4 +4,5 @@ export interface IUser {
   full_name?: string;
   avatar_url?: string;
   role: string;
+  gender?: string;
 }

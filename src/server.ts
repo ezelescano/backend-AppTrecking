@@ -5,6 +5,9 @@ const morgan = require( "morgan");
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import type { OpenAPIV3 } from "openapi-types";
+import cors from "cors";
+
+
 
 const server = express();
 
@@ -31,6 +34,13 @@ console.log("Swagger loaded schemas:", Object.keys(swaggerSpec.components?.schem
 server.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Middlewares y rutas
+
+server.use(cors({
+  origin: ['http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+}));
 server.use(morgan("dev"));
 server.use(express.json());
 server.use("/", router);

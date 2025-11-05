@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register } from "../controllers/authController";
+import { register, login,  logout } from "../controllers/authController";
 
 const authRouter: Router = Router();
 
@@ -23,15 +23,9 @@ const authRouter: Router = Router();
 
 authRouter.post("/register", register);
 
-authRouter.post("/login", (req, res) => {
-  // Lógica de autenticación aquí
-  res.send("Login endpoint");
-}   );
+authRouter.post("/login", login );
 
-authRouter.post("/logout", (req, res) => {
-  // Lógica de cierre de sesión aquí
-  res.send("Logout endpoint");
-}   );
+authRouter.post("/logout", logout  );
 
 export default authRouter;
 

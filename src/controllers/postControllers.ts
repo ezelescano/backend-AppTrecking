@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { createPost, deletePost, getAllPost, getPostbyId, getUserLoggedPosts, updatePost } from "../services/postServices";
-import { error } from "console";
-
 
 export const getAllLoggedPosts = async (req: Request, res: Response) => {
     try {

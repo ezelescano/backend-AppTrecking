@@ -4,8 +4,11 @@ import { UserDTO } from "../DTO/UserDTO";
 
 export const getUsers = async (): Promise<IUser[]> => {
   try {
-    const { data, error } = await supabase.from("users").select("*");
+    const { data, error } = await supabase.from("user").select("*");
     if (error) throw error;
+
+    console.log("soy el data", data);
+    
     return data ?? [];
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -16,7 +19,7 @@ export const getUsers = async (): Promise<IUser[]> => {
 export const createUser = async (data: UserDTO): Promise<IUser> => {
   try {
     const { data: newUser, error } = await supabase
-      .from("users")
+      .from("user")
       .insert(data)
       .select()
       .single();
@@ -33,7 +36,7 @@ export const createUser = async (data: UserDTO): Promise<IUser> => {
 export const getUserById = async (userId: string): Promise<IUser> => {
   try {
     const { data, error } = await supabase
-      .from("users")
+      .from("user")
       .select("*")
       .eq("id", userId)
       .single();
@@ -72,7 +75,7 @@ try {
   }
 
   if (Object.keys(newData).length === 0) {
-    const {data: existing } = await supabase.from("users").select("*").eq("id", userId).single();
+    const {data: existing } = await supabase.from("user").select("*").eq("id", userId).single();
     if (!existing) {
       const notFoundError = new Error("User not found");
       notFoundError.name = "NotFoundError";
@@ -81,7 +84,7 @@ try {
     return existing;
   }
   const { data, error } = await supabase
-    .from("users")
+    .from("user")
     .update(newData)
     .eq("id", userId)
     .select()
@@ -99,7 +102,7 @@ try {
 export const deleteUser = async (userId: string): Promise<string> => {
   try {
     const { data, error } = await supabase
-      .from("users")
+      .from("user")
       .delete()
       .eq("id", userId)
       .select();

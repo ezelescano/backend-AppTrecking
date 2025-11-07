@@ -16,6 +16,6 @@ const router = Router();
  */
 
 router.use("/auth", authRouter);
-router.use("/users", userRouter);
+router.use("/perfil", userRouter);
 router.use("/posts", postRouter);
 export default router;

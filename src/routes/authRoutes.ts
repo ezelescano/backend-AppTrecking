@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register, login,  logout } from "../controllers/authController";
+import { register, login,  logout, me } from "../controllers/authController";
 
 const authRouter: Router = Router();
 
@@ -23,9 +23,53 @@ const authRouter: Router = Router();
 
 authRouter.post("/register", register);
 
-authRouter.post("/login", login );
+/** * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Inicia sesión
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Auth'
+ *     responses:
+ *       200:
+ *         description: Inicio de sesión exitoso
+ *       401:
+ *         description: Credenciales inválidas
+ */
 
-authRouter.post("/logout", logout  );
+authRouter.post("/login", login);
+
+/** * @swagger
+ * /auth/logout:
+ *   post:              
+ *     summary: Cierra sesión
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Cierre de sesión exitoso
+ *       401:
+ *         description: No autorizado
+ */
+
+authRouter.post("/logout", logout);
+
+/** * @swagger
+ * /auth/me:
+ *   get:
+ *     summary: Obtiene información del usuario autenticado
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Información del usuario
+ *       401:
+ *         description: No autorizado
+ */
+
+authRouter.get("/me", me);
 
 export default authRouter;
 

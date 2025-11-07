@@ -10,23 +10,23 @@ Este proyecto implementa **Arquitectura Hexagonal** (Ports & Adapters) organizan
 
 ```
 src/
-├── api/
-│   ├── routes/
-│   │   ├── auth.routes.ts
-│   │   ├── posts.routes.ts
-│   │   ├── comments.routes.ts
-│   │   └── users.routes.ts
-│   └── controllers/
-│       ├── authController.ts
-│       ├── postController.ts
-│       └── commentController.ts
+|
+├── routes/
+│   ├── auth.routes.ts
+│   ├── posts.routes.ts
+│   ├── comments.routes.ts
+│   └── users.routes.ts
+├── controllers/
+│   ├── authController.ts
+│   ├── postController.ts
+│   └── commentController.ts
 ├── services/                # lógica que interactúa con Supabase
 │   ├── authService.ts
 │   ├── postService.ts
 │   └── commentService.ts
 ├── middlewares/
-│   ├── authMiddleware.ts
-│   └── errorHandler.ts
+│   └── authMiddleware.ts
+│
 ├── interfaces/              # DTOs y tipos TypeScript
 │   ├── IPost.ts
 │   ├── IComment.ts
@@ -34,17 +34,18 @@ src/
 ├── config/
 │   ├── supabase.ts
 │   └── envs.ts
-├── db/                      # migrations / seeds / sql
-├── utils/                   # helpers (pagination, validators)
+|
+|
 └── index.ts                 # arranque del servidor (express)
 ```
 ### 🔐 Variables de entorno (ejemplo)
 
 # Supabase
+```.env
 SUPABASE_URL=https://xyz.supabase.co
 SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...   # solo backend, no publicar
-
+```
 # App / Server
 PORT=8080
 NODE_ENV=development
@@ -266,3 +267,12 @@ export const createPost = async (req, res) => {
   }
 }
 ```
+
+### ⚙️ Cómo usarlo
+
+- 📁 Asegurate de estar en la raíz de tu proyecto
+
+- ```bash
+  npm install
+  ```
+  - Esto va a instalar todas las dependencias automáticamente 🎉

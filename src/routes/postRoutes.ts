@@ -7,6 +7,8 @@ import {
   getPostByIdController,
   updatePostController,
 } from "../controllers/postControllers";
+import { createCommentController } from "../controllers/commentsConstroller";
+import { authenticateUser } from "../middelwares/authenticates";
 
 const postRouter: Router = Router();
 
@@ -137,6 +139,37 @@ postRouter.delete("/:id", deletePostController);
  */
 
 postRouter.put("/:id", updatePostController);
+
+/** * @swagger
+ * /posts/ {id}/comments:
+ *   post:
+ *     summary: Crea un nuevo comentario en un post
+ *     tags: [Comments]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID del post
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               content:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Comentario creado
+ *       400:
+ *         description: Datos del comentario inválidos
+ */
+
+postRouter.post("/:id/comments", authenticateUser,  createCommentController);
+
 
 
 export default postRouter;

@@ -11,30 +11,44 @@ Este proyecto implementa **Arquitectura Hexagonal** (Ports & Adapters) organizan
 ```
 src/
 |
-├── routes/
-│   ├── auth.routes.ts
-│   ├── posts.routes.ts
-│   ├── comments.routes.ts
-│   └── users.routes.ts
-├── controllers/
-│   ├── authController.ts
-│   ├── postController.ts
-│   └── commentController.ts
-├── services/                # lógica que interactúa con Supabase
-│   ├── authService.ts
-│   ├── postService.ts
-│   └── commentService.ts
-├── middlewares/
-│   └── authMiddleware.ts
-│
-├── interfaces/              # DTOs y tipos TypeScript
-│   ├── IPost.ts
-│   ├── IComment.ts
-│   └── IAuthUser.ts
 ├── config/
 │   ├── supabase.ts
 │   └── envs.ts
 |
+├── controllers/
+│   ├── authController.ts
+│   ├── postController.ts
+│   └── commentController.ts
+|
+├── DTO
+|   ├── CommentDTO.ts
+|   ├── PostDTO.ts
+|   └── UserDTO.ts
+|
+├── interfaces/              
+│   ├── IPost.ts
+│   ├── IComments.ts
+│   ├── IauthUser.ts
+|   ├── IPostComments.ts
+|   └── IUser.ts
+|
+├── middlewares/
+│   └── authenticates.ts
+|
+├── routes/
+│   ├── authRoutes.ts
+│   ├── postsRoutes.ts
+│   ├── index.ts
+│   └── usersRoutes.ts
+|
+├── services/                # lógica que interactúa con Supabase
+│   ├── authService.ts
+│   ├── postService.ts
+│   ├── commentService.ts
+│   └── userService.ts
+|
+├── swagger/                  # documentación API Swagger
+│   └── swaggerSchemas.json         
 |
 └── index.ts                 # arranque del servidor (express)
 ```

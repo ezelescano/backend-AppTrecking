@@ -44,7 +44,7 @@ src/
 ```.env
 SUPABASE_URL=https://xyz.supabase.co
 SUPABASE_ANON_KEY=...
-SUPABASE_SERVICE_ROLE_KEY=...   # solo backend, no publicar
+SUPABASE_SERVICE_ROLE_KEY=...  
 ```
 # App / Server
 PORT=8080
@@ -276,3 +276,4 @@ export const createPost = async (req, res) => {
   npm install
   ```
   - Esto va a instalar todas las dependencias automáticamente 🎉
+

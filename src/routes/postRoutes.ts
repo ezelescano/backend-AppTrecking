@@ -7,7 +7,7 @@ import {
   getPostByIdController,
   updatePostController,
 } from "../controllers/postControllers";
-import { createCommentController } from "../controllers/commentsConstroller";
+import { createCommentController, deleteCommentController, updateCommentController } from "../controllers/commentsConstroller";
 import { authenticateUser } from "../middelwares/authenticates";
 
 const postRouter: Router = Router();
@@ -169,6 +169,69 @@ postRouter.put("/:id", updatePostController);
  */
 
 postRouter.post("/:id/comments", authenticateUser,  createCommentController);
+
+/** * @swagger
+ * /posts/ {postId}/comments/ {commentId}:
+ *   delete:
+ *     summary: Elimina un comentario por su ID en un post
+ *     tags: [Comments]
+ *     parameters:
+ *       - in: path
+ *         name: postId
+ *         required: true
+ *         description: ID del post
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: commentId
+ *         required: true
+ *         description: ID del comentario
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Comentario eliminado
+ *       404:
+ *         description: Comentario no encontrado
+ */
+
+postRouter.delete("/:postId/comments/:commentId", authenticateUser, deleteCommentController);
+
+/** * @swagger
+ * /posts/ {postId}/comments/ {commentId}:
+ *   put:
+ *     summary: Actualiza un comentario por su ID en un post
+ *     tags: [Comments]
+ *    parameters:
+ *      - in: path
+ *       name: postId
+ *    required: true
+ *    description: ID del post
+ *      schema:
+ *      type: string
+ *     - in: path
+ *      name: commentId
+ *    required: true
+ *   description: ID del comentario
+ *     schema:
+ *      type: string
+ *    requestBody:
+ *     required: true
+ *    content:
+ *      application/json:
+ *       schema:
+ *        type: object
+ *        properties:
+ *         content:
+ *          type: string
+ *    responses:
+ *    200:
+ *    description: Comentario actualizado
+ *  404:
+ *   description: Comentario no encontrado
+ */
+
+postRouter.put("/:postId/comments/:commentId", authenticateUser,  updateCommentController);
 
 
 

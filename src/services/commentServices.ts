@@ -1,5 +1,4 @@
 import { supabase } from "../config/supabase";
-import { CommentDTO } from "../DTO/CommentDTO";
 import { IComments } from "../interfaces/IComments";
 
 export const createComment = async (
@@ -92,3 +91,4 @@ export const updateComment = async (userId: string, postId: string, commentId:st
 
       return updateCommentData;
 };
+

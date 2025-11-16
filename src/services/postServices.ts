@@ -31,7 +31,7 @@ export const getAllPost = async (): Promise<IPost[]> => {
   return postData as IPost[];
 };
 
-export const getPostbyId = async (postId: string): Promise<IPostComments> => {
+export const getPostById = async (postId: string): Promise<IPostComments> => {
   const {data: postData, error: postError} = await supabase
   .from("posts")
   .select("*")

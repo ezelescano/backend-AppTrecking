@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createPost, deletePost, getAllPost, getPostbyId, getUserLoggedPosts, updatePost } from "../services/postServices";
+import { createPost, deletePost, getAllPost, getPostById, getUserLoggedPosts, updatePost } from "../services/postServices";
 
 export const getAllLoggedPosts = async (req: Request, res: Response) => {
     try {
@@ -14,7 +14,6 @@ export const getAllLoggedPosts = async (req: Request, res: Response) => {
        return res.status(statusCode).json({ error: message }); 
     }
 } 
-
 
 export const getAllPostsController = async (req: Request, res: Response) => {
     try {
@@ -31,11 +30,10 @@ export const getAllPostsController = async (req: Request, res: Response) => {
     }
 }
 
-
 export const getPostByIdController = async (req: Request, res: Response) => {
     try {
         const postId = req.params.id;
-        const postWhithComments = await getPostbyId(postId);
+        const postWhithComments = await getPostById(postId);
         if (!postWhithComments) throw new Error("Post not found");
         res.status(200).json(postWhithComments);
     } catch (error : any) {
@@ -43,7 +41,6 @@ export const getPostByIdController = async (req: Request, res: Response) => {
         const message = error.message || "Internal Server Error"
     }
 };
-
 
 export const createPostController = async (req: Request, res: Response) => {
     try {
@@ -90,4 +87,3 @@ export const updatePostController = async (req: Request, res: Response) => {
         return res.status(statusCode).json({ error: message });
     }
 }
-

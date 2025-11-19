@@ -1,125 +1,39 @@
-import { supabase } from "../config/supabase";
-import { IUser } from "../interfaces/IUser";
-import { UserDTO } from "../DTO/UserDTO";
+  import { supabase } from "../config/supabase";
+  import { IUser, IUserProfile } from "../interfaces/IUser";
 
-export const getUsers = async (): Promise<IUser[]> => {
-  try {
-    const { data, error } = await supabase.from("user").select("*");
-    if (error) throw error;
+  export const getUserWhithProfile = async (userId: string) : Promise<IUser> => {
+    if(!userId || userId.trim() === "") throw new Error("User ID cannot be empty");
 
-    console.log("soy el data", data);
-    
-    return data ?? [];
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    throw error;
-  }
-};
-
-export const createUser = async (data: UserDTO): Promise<IUser> => {
-  try {
-    const { data: newUser, error } = await supabase
-      .from("user")
-      .insert(data)
-      .select()
-      .single();
-
-    if (error) throw error;
-
-    return newUser;
-  } catch (error) {
-    console.error("Error creating user:", error);
-    throw error;
-  }
-}
-
-export const getUserById = async (userId: string): Promise<IUser> => {
-  try {
-    const { data, error } = await supabase
-      .from("user")
-      .select("*")
-      .eq("id", userId)
-      .single();
-
-    if (error) {
-      if (error.code === "PGRST116") {
-        const notFoundError = new Error("User not found");
-        notFoundError.name = "NotFoundError";
-        throw notFoundError;
-      }
-      throw error;
-    }
-
-    if (!data) {
-      const notFoundError = new Error("User not found");
-      notFoundError.name = "NotFoundError";
-      throw notFoundError;
-    }
-
-    return data;
-  } catch (err) {
-    console.error("Error fetching user by ID:", err);
-    throw err;
-  }
-};
-
-
-export const updateUser = async (userId: string, userData: UserDTO): Promise<IUser> => {
-try {
-  const newData: Partial<UserDTO> = {};
- 
-  for (const key in userData) {
-    const k = key as keyof UserDTO;
-    const value = userData[k];
-    if(value != null && value !== undefined) newData[k] = value;
-  }
-
-  if (Object.keys(newData).length === 0) {
-    const {data: existing } = await supabase.from("user").select("*").eq("id", userId).single();
-    if (!existing) {
-      const notFoundError = new Error("User not found");
-      notFoundError.name = "NotFoundError";
-      throw notFoundError;
-    }
-    return existing;
-  }
-  const { data, error } = await supabase
-    .from("user")
-    .update(newData)
+    const {data: userData, error: userError} = await supabase
+    .from("userProfile")
+    .select("*")
     .eq("id", userId)
-    .select()
     .single();
 
-  if (error) throw error;
+    if(userError) throw userError;
+    if(!userData) throw new Error("User not found");
 
-  return data;
-} catch (error) {
-  console.error("Error updating user:", error);
-  throw error;
-}
-}
+    // get user auth data
 
-export const deleteUser = async (userId: string): Promise<string> => {
-  try {
-    const { data, error } = await supabase
-      .from("user")
-      .delete()
-      .eq("id", userId)
-      .select();
+    const {data: userAuth, error: userAuthError} = await supabase.auth.admin.getUserById(userId)
 
-    if (error) {
-      console.error("Error deleting user:", error);
-      throw error;
-    }
+    if(userAuthError) throw userAuthError;
+    
+    const authUser = userAuth.user;
 
-    if (!data || !Array.isArray(data) || data.length === 0) {
-      return "No user found with the given ID";
-    }
-
-    return "User deleted successfully";
-  } catch (error) {
-    console.error("Error deleting user:", error);
-    throw error;
-  }
-};
-
+    return{
+      UID: authUser.id,
+      displayName: authUser.user_metadata.full_name || null,
+      email: authUser.email || null,
+      phone: authUser.phone || null,
+      providers: authUser.identities ? authUser.identities.map(identity => identity.provider) : [],
+      providerType: authUser.identities && authUser.identities.length > 0 ? authUser.identities[0].provider : "unknown",
+      userProfile: {
+        user_name: userData.user_name,
+        full_name: userData.full_name || null,
+        avatar_url: userData.avatar_url || null,
+        role: userData.role,
+        gender: userData.gender || null
+      }, 
+    };    
+  };

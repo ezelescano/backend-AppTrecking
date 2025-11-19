@@ -1,8 +1,18 @@
-export interface IUser {
-  id: string;
-  user_name: string;
-  full_name?: string;
-  avatar_url?: string;
-  role: string;
-  gender?: string;
+export interface IUserProfile {
+  user_name: string | null;
+  full_name?: string | null;
+  avatar_url?: string | null;
+  role: string | null;
+  gender?: string | null
+    
+}
+
+export interface IUser { 
+UID: string;
+displayName: string | null;
+email: string | null;
+phone: string | null;
+providers: string[];
+providerType: string;
+userProfile?: IUserProfile | null;
 }

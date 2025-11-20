@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { createPost, deletePost, getAllPost, getPostById, getUserLoggedPosts, updatePost } from "../services/postServices";
 
 export const getAllLoggedPosts = async (req: Request, res: Response) => {
+
+    
     try {
         const accessToken = req.headers.authorization?.split(" ")[1];
         if (!accessToken) return res.status(401).json({ error: "Unauthorized" });

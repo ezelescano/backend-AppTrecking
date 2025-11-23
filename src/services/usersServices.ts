@@ -1,7 +1,6 @@
 import { error } from "console";
 import { supabase } from "../config/supabase";
 import { UserDTO } from "../DTO/UserDTO";
-import { IUserProfileDTO } from "../DTO/UserProfileDTO";
 import { BadRequest, Conflict, NotFound } from "../errors";
 import { IUser, IUserProfile } from "../interfaces/IUser";
 
@@ -51,10 +50,10 @@ export const getUserWhithProfile = async (userId: string): Promise<IUser> => {
   };
 };
 
-export const updateUserProfile = async (userId: string, userData: Partial<IUserProfileDTO>): Promise<IUserProfile> => {
-  const newData: Partial<IUserProfileDTO> = {};
+export const updateUserProfile = async (userId: string, userData: Partial<UserDTO>): Promise<IUserProfile> => {
+  const newData: Partial<UserDTO> = {};
   for (const key in userData) {
-    const k = key as keyof IUserProfileDTO;
+    const k = key as keyof UserDTO;
     const value = userData[k];
     if (value != null && value !== undefined) newData[k] = value;
   }

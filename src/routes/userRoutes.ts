@@ -118,7 +118,7 @@ userRouter.put("/profile", authenticateUser, updateProfileController)
  *       500:
  *         description: Internal server error.
  */
-userRouter.get("/:id", authenticateUser, getUserByIdController);
+userRouter.get("/:id", authenticateUser,getUserByIdController);
 
 /**
  * @swagger

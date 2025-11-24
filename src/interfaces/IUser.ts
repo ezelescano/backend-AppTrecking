@@ -3,8 +3,9 @@ export interface IUserProfile {
   full_name?: string | null;
   avatar_url?: string | null;
   role: string | null;
-  gender?: string | null
-    
+  gender?: string | null;
+  birth_date?: Date | null
+  age?: number | null  
 }
 
 export interface IUser { 

@@ -1,4 +1,3 @@
-import { error } from "console";
 import { supabase } from "../config/supabase";
 import { UserDTO } from "../DTO/UserDTO";
 import { BadRequest, Conflict, NotFound } from "../errors";
@@ -50,12 +49,18 @@ export const getUserWhithProfile = async (userId: string): Promise<IUser> => {
   };
 };
 
-export const updateUserProfile = async (userId: string, userData: Partial<UserDTO>): Promise<IUserProfile> => {
-  const newData: Partial<UserDTO> = {};
-  for (const key in userData) {
-    const k = key as keyof UserDTO;
-    const value = userData[k];
-    if (value != null && value !== undefined) newData[k] = value;
+export const updateUserProfile = async (
+  userId: string,
+  userData: Partial<UserDTO>
+): Promise<IUserProfile> => {
+ 
+   const newData: Partial<Record<keyof UserDTO, string | number | Date | null>> = {};
+
+  for (const key of Object.keys(userData) as (keyof UserDTO)[]) {
+    const value = userData[key];
+    if (value !== undefined) {
+      newData[key] = value;
+    }
   }
 
   if (Object.keys(newData).length === 0) {
@@ -64,11 +69,13 @@ export const updateUserProfile = async (userId: string, userData: Partial<UserDT
       .select("*")
       .eq("id", userId)
       .single();
+
     if (!existing) {
-      const notFoundError = new Error("User not found");
-      notFoundError.name = "NotFoundError";
-      throw notFoundError;
+      const err = new Error("User not found");
+      err.name = "NotFoundError";
+      throw err;
     }
+
     return existing;
   }
 
@@ -83,9 +90,8 @@ export const updateUserProfile = async (userId: string, userData: Partial<UserDT
   return data;
 };
 
+
 export const getUserById = async (userId: string): Promise<IUserProfile> => {
-  if (!userId || userId.trim() === "")
-    throw BadRequest("User ID cannot be empty");
 
   const { data: userData, error: userError } = await supabase
     .from("userProfile")
@@ -102,11 +108,14 @@ export const getUserById = async (userId: string): Promise<IUserProfile> => {
     avatar_url: userData.avatar_url || null,
     role: userData.role || null,
     gender: userData.gender || null,
+    birth_date: userData.birth_date || null,
+    age: userData.age || null
   };
 };
 
 
 export const completeProfile = async (userId: string, newProfile: IUserProfile) : Promise<IUserProfile> =>{
+  
   if(!newProfile) throw BadRequest("Profile data is required");
 
   // check if profile already exist

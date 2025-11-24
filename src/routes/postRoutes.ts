@@ -23,7 +23,7 @@ const postRouter: Router = Router();
  *         description: Lista de posts
  */
 
-// postRouter.get("/loggeduser", getAllLoggedPosts);
+postRouter.get("/loggeduser", getAllLoggedPosts);
 
 /** * @swagger
  * /posts/all:
@@ -35,7 +35,7 @@ const postRouter: Router = Router();
  *         description: Lista de posts
  */
 
-// postRouter.get("/", getAllPostsController);
+postRouter.get("/", getAllPostsController);
 
 /** * @swagger
  * /posts/ {id}:
@@ -56,7 +56,7 @@ const postRouter: Router = Router();
  *         description: Post no encontrado
  */
 
-// postRouter.get("/:id", getPostByIdController);
+postRouter.get("/:id", getPostByIdController);
 
 /** * @swagger
  * /posts:
@@ -83,7 +83,7 @@ const postRouter: Router = Router();
  *         description: Datos del post inválidos
  */
 
-// postRouter.post("/", createPostController);
+postRouter.post("/", createPostController);
 
 /** * @swagger
  * /posts/ {id}:
@@ -104,7 +104,7 @@ const postRouter: Router = Router();
  *         description: Post no encontrado
  */ 
 
-// postRouter.delete("/:id", deletePostController);
+postRouter.delete("/:id", deletePostController);
 
 /** * @swagger
  * /posts/ {id}:
@@ -138,7 +138,7 @@ const postRouter: Router = Router();
  *         description: Post no encontrado
  */
 
-// postRouter.put("/:id", updatePostController);
+postRouter.put("/:id", updatePostController);
 
 /** * @swagger
  * /posts/ {id}/comments:
@@ -168,7 +168,7 @@ const postRouter: Router = Router();
  *         description: Datos del comentario inválidos
  */
 
-// postRouter.post("/:id/comments", authenticateUser,  createCommentController);
+postRouter.post("/:id/comments", authenticateUser,  createCommentController);
 
 /** * @swagger
  * /posts/ {postId}/comments/ {commentId}:
@@ -195,7 +195,7 @@ const postRouter: Router = Router();
  *         description: Comentario no encontrado
  */
 
-// postRouter.delete("/:postId/comments/:commentId", authenticateUser, deleteCommentController);
+postRouter.delete("/:postId/comments/:commentId", authenticateUser, deleteCommentController);
 
 /** * @swagger
  * /posts/ {postId}/comments/ {commentId}:
@@ -231,7 +231,7 @@ const postRouter: Router = Router();
  *   description: Comentario no encontrado
  */
 
-// postRouter.put("/:postId/comments/:commentId", authenticateUser,  updateCommentController);
+postRouter.put("/:postId/comments/:commentId", authenticateUser,  updateCommentController);
 
 
 

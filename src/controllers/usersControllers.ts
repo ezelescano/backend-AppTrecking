@@ -39,8 +39,8 @@ export const updateProfileController = async (req: Request, res: Response) => {
 
 export const getUserByIdController = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
-
+    const  userId  = req.params.id;
+    
      if (!userId) {
       return res.status(400).json({ message: "User ID is required" });
     }
@@ -58,7 +58,7 @@ export const getUserByIdController = async (req: Request, res: Response) => {
 
 export const completeProfController = async (req: Request, res: Response) =>{
   try {
-    const {newProfile} = req.body;
+    const newProfile = req.body;
     
     const userId = (req as any).user.id;
 

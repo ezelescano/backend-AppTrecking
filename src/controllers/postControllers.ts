@@ -1,14 +1,11 @@
 import { Request, Response } from "express";
 import { createPost, deletePost, getAllPost, getPostById, getUserLoggedPosts, updatePost } from "../services/postServices";
 
-export const getAllLoggedPosts = async (req: Request, res: Response) => {
-
-    
+export const getAllLoggedPosts = async (req: Request, res: Response) => {   
     try {
-        const accessToken = req.headers.authorization?.split(" ")[1];
-        if (!accessToken) return res.status(401).json({ error: "Unauthorized" });
+        const userId = (req as any).user.id;
 
-        const posts = await getUserLoggedPosts(accessToken);
+        const posts = await getUserLoggedPosts(userId);
         return res.status(200).json(posts);
     } catch (error: any) {
         const statusCode = error.status || 500;
@@ -46,9 +43,7 @@ export const getPostByIdController = async (req: Request, res: Response) => {
 
 export const createPostController = async (req: Request, res: Response) => {
     try {
-        const accessToken = req.headers.authorization?.split(" ")[1];
-        if (!accessToken) return res.status(401).json({ error: "Unauthorized" });
-        const userId = req.body.userId; // Assuming userId is sent in the request body
+        const userId = (req as any).user.id; 
         const newPost = req.body;
         if (!newPost) return res.status(400).json({ error: "Post data is required" });
         const createdPost = await createPost(newPost, userId);
@@ -62,10 +57,9 @@ export const createPostController = async (req: Request, res: Response) => {
 
 export const deletePostController = async (req: Request, res: Response) => {
     try {
-        const accessToken = req.headers.authorization?.split(" ")[1];
-        if(!accessToken) return res.status(401).json({error: "Unauthorized"});
+        const userId = (req as any).user.id;
         const postId = req.params.id;
-        const deletedPostId = await deletePost(postId, accessToken);
+        const deletedPostId = await deletePost(postId, userId);
         return res.status(200).json({ message: `Post with ID ${deletedPostId} deleted successfully` });
     } catch (error : any) {
         const statusCode = error.status || 500;
@@ -76,12 +70,11 @@ export const deletePostController = async (req: Request, res: Response) => {
 
 export const updatePostController = async (req: Request, res: Response) => {
     try {
-        const accessToken = req.headers.authorization?.split(" ")[1];
-        if(!accessToken) return res.status(401).json({error: "Unauthorized"});
+        const userId = (req as any).user.id;
         const postId = req.params.id;
         const updateContent = req.body;
         if(!updateContent) return res.status(400).json({error: "Update data is required"});
-        const updatedPost = await updatePost(postId, updateContent, accessToken);
+        const updatedPost = await updatePost(postId, updateContent, userId);
         return res.status(200).json(updatedPost);
     } catch (error: any) {
         const statusCode = error.status || 500;

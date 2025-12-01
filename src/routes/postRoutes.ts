@@ -23,7 +23,7 @@ const postRouter: Router = Router();
  *         description: Lista de posts
  */
 
-postRouter.get("/loggeduser", getAllLoggedPosts);
+postRouter.get("/loggeduser", authenticateUser, getAllLoggedPosts);
 
 /** * @swagger
  * /posts/all:
@@ -56,7 +56,7 @@ postRouter.get("/", getAllPostsController);
  *         description: Post no encontrado
  */
 
-postRouter.get("/:id", getPostByIdController);
+postRouter.get("/:id", authenticateUser,  getPostByIdController);
 
 /** * @swagger
  * /posts:
@@ -83,7 +83,7 @@ postRouter.get("/:id", getPostByIdController);
  *         description: Datos del post inválidos
  */
 
-postRouter.post("/", createPostController);
+postRouter.post("/", authenticateUser, createPostController);
 
 /** * @swagger
  * /posts/ {id}:
@@ -104,7 +104,7 @@ postRouter.post("/", createPostController);
  *         description: Post no encontrado
  */ 
 
-postRouter.delete("/:id", deletePostController);
+postRouter.delete("/:id", authenticateUser, deletePostController);
 
 /** * @swagger
  * /posts/ {id}:
@@ -138,7 +138,7 @@ postRouter.delete("/:id", deletePostController);
  *         description: Post no encontrado
  */
 
-postRouter.put("/:id", updatePostController);
+postRouter.put("/:id", authenticateUser, updatePostController);
 
 /** * @swagger
  * /posts/ {id}/comments:

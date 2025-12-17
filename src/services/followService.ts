@@ -86,3 +86,26 @@ export const getFollowers = async (
 
   return followersUser ?? [];
 };
+
+export const getFollowing = async (
+  userId: string
+): Promise<FollowerWithProfile[]> => {
+  const { data: followingUsers, error: followingErrors } = await supabase
+    .from("follows")
+    .select<
+      `
+      followed_user_id,
+      userProfile (
+        id,
+        user_name,
+        avatar_url
+      )
+    `,
+      FollowerWithProfile
+    >()
+    .eq("following_user_id", userId);
+
+  if (followingErrors) throw BadRequest("Failed to get following users");
+
+  return followingUsers ?? [];
+};
